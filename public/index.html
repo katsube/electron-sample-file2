@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <title>Electron Smaple - FileSave</title>
+  <style>
+    body{ background-color:white; }
+    #btn-save{ margin:12px; }
+    #text{ width:100%; height:400px; font-size:14pt; line-height:140%; padding:5px;}
+    #message{ display:none; }
+  </style>
+</head>
+<body>
+
+<form>
+  <button type="button" id="btn-save">保存</button>
+  <span id="message"></span>
+</form>
+<textarea id="text"></textarea>
+
+<script>
+const {ipcRenderer} = require('electron');
+const text = document.querySelector("#text");
+
+window.addEventListener('load', ()=>{
+  text.focus();
+})
+
+document.querySelector('#btn-save').addEventListener('click', () => {
+  // メインプロセスを呼び出し
+  ipcRenderer.invoke('file-save', text.value)
+    .then((data) => {
+      // キャンセルで閉じた
+      if( data.status === undefined ){
+        return(false);
+      }
+      // 保存できなかった
+      if( ! data.status ){
+        alert(`ファイルが開けませんでした\n${data.message}`);
+        return(false);
+      }
+
+      // 保存できた
+      const message = document.querySelector('#message');
+      message.textContent = 'ファイルに保存できました';
+      message.style.display = 'inline';
+      text.focus();
+    })
+    .catch((err) => {
+      alert(err);
+    });
+});
+</script>
+</body>
+</html>
