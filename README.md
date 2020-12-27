@@ -1,8 +1,10 @@
 # Electron Sample - file save
 「保存」ボタンをクリックするとダイアログが開き、テキストエリアの内容が指定したファイルに保存されます。
 
+![キャプチャ](doc/image/electron-filesave1_1.png)
+
 ## 解説ページ
-* []()
+* [[Electron] ダイアログで指定したファイルに保存する](https://blog.katsubemakito.net/nodejs/electron/savefile-opendialog)
 
 ## 準備
 Gitでリポジトリを取得します。
